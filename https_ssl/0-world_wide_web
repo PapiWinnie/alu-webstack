@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# Function to fetch subdomain information
+fetch_subdomain_info() {
+  local domain=$1
+  local subdomain=$2
+
+  # Perform DNS query
+  result=$(dig "$subdomain.$domain" +short)
+
+  if [[ -z "$result" ]]; then
+    echo "The subdomain $subdomain does not exist or cannot be resolved."
+    return
+  fi
+
+  # Determine the record type (Assume A record for simplicity)
+  echo "The subdomain $subdomain is a A record and points to $result"
+}
+
+# Main script logic
+main() {
+  local domain=$1
+  local subdomain=$2
+
+  if [[ -z "$domain" ]]; then
+    echo "Usage: $0 <domain> [subdomain]"
+    exit 1
+  fi
+
+  if [[ -n "$subdomain" ]]; then
+    # If subdomain is provided, fetch its information
+    fetch_subdomain_info "$domain" "$subdomain"
+  else
+    # Default subdomains to check
+    for sub in www lb-01 web-01 web-02; do
+      fetch_subdomain_info "$domain" "$sub"
+    done
+  fi
+}
+
+# Call the main function with arguments
+main "$@"
