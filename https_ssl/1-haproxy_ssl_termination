@@ -47,5 +47,5 @@ frontend inthehood242121-frontend-https
 
 backend inthehood242121-backend
         balance roundrobin
-        server 6292-web-01 35.172.180.72:80 check
-        server 6292-web-02 34.228.9.239:80 check
+        server 6353-web-01 52.91.95.193:80 check
+        server 6353-web-02 18.234.88.172:80 check
